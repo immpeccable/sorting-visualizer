@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family:'Times New Roman', Times, serif;
+}
+:root{
+  --header-color: rgb(52, 73, 94);
+  --hovered-text-color: rgb(212,212,212);
+  --purple: rgb(241, 94, 255);
+  --red: rgb(214, 58, 58);
+  --blue: rgba(66, 134, 244, 0.8);
+  --green: rgb(84, 201, 73);
+}
+* {
+  color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
