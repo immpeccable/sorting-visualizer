@@ -1,10 +1,10 @@
 import React from "react";
 
 export enum CurrentAlgorithmEnum {
-    merge = 'Merge Sort',
-    quick = 'Quick Sort',
-    heap = 'Heap Sort',
-    bubble = 'Bubble Sort'
+    merge = 'MergeSort',
+    quick = 'QuickSort',
+    heap = 'HeapSort',
+    bubble = 'BubbleSort'
 }
 
 export enum Colors {
@@ -25,4 +25,17 @@ export type TableElementProps = {
     height: string;
     width: string;
     color: string;
+}
+
+export enum AnimationType {
+    swap= 'swap',
+    colorChange='colorChange',
+    assurePlace= 'assurePlace',
+}
+
+export type AnimationElement = {
+    type: AnimationType,
+    color: Colors,
+    firstIndex: number,
+    secondIndex: number,
 }
