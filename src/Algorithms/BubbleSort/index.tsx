@@ -1,17 +1,10 @@
 import React from "react";
-import {
-  AnimationType,
-  Colors,
-  AnimationElement,
-  ArrayElement,
-} from "../../MainComponent/types";
+import { AnimationType, AnimationElement } from "../types";
 
-export const BubbleSort = (array: ArrayElement[]) => {
+import { Colors, ArrayElement } from "../../MainComponent/types";
+export const BubbleSort = (tempArray: number[]) => {
   let animations: AnimationElement[] = [];
-  let tempArray = [];
-  for (const el of array) {
-    tempArray.push(el.height);
-  }
+
   for (var i = 0; i < tempArray.length; i++) {
     for (var j = 0; j < tempArray.length - i - 1; j++) {
       if (tempArray[j] > tempArray[j + 1]) {
@@ -26,7 +19,21 @@ export const BubbleSort = (array: ArrayElement[]) => {
             color: Colors.red,
           },
           {
-            type: AnimationType.swap,
+            type: AnimationType.setHeight,
+            firstIndex: j,
+            secondIndex: j + 1,
+            color: Colors.red,
+            newHeight: tempArray[j],
+          },
+          {
+            type: AnimationType.setHeight,
+            firstIndex: j + 1,
+            secondIndex: j + 1,
+            color: Colors.red,
+            newHeight: tempArray[j + 1],
+          },
+          {
+            type: AnimationType.colorChange,
             firstIndex: j,
             secondIndex: j + 1,
             color: Colors.red,
@@ -46,13 +53,21 @@ export const BubbleSort = (array: ArrayElement[]) => {
           color: Colors.green,
         });
       }
-      if (j === array.length - i - 2) {
-        animations.push({
-          type: AnimationType.assurePlace,
-          firstIndex: j + 1,
-          secondIndex: -1,
-          color: Colors.purple,
-        });
+      if (j === tempArray.length - i - 2) {
+        animations.push(
+          {
+            type: AnimationType.colorChange,
+            firstIndex: j + 1,
+            secondIndex: -1,
+            color: Colors.purple,
+          },
+          {
+            type: AnimationType.assurePlace,
+            firstIndex: j + 1,
+            secondIndex: -1,
+            color: Colors.purple,
+          }
+        );
       }
     }
   }

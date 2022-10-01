@@ -7,5 +7,5 @@ export const VisualizationTable = styled.div`
   flex-direction: row;
   width: 100vw;
   justify-content: center;
-  gap: 5px;
+  gap: 2px;
 `;

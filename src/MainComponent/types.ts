@@ -27,15 +27,3 @@ export type TableElementProps = {
     color: string;
 }
 
-export enum AnimationType {
-    swap= 'swap',
-    colorChange='colorChange',
-    assurePlace= 'assurePlace',
-}
-
-export type AnimationElement = {
-    type: AnimationType,
-    color: Colors,
-    firstIndex: number,
-    secondIndex: number,
-}

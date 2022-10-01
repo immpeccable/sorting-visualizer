@@ -13,7 +13,6 @@ export const MainComponent = () => {
     useState<CurrentAlgorithmEnum>(CurrentAlgorithmEnum.merge);
   const [isSorting, setIsSorting] = useState(false);
   const [size, setSize] = useState(20);
-  const [speed, setSpeed] = useState(50);
   const [generateNewArray, setGenerateNewArray] = useState(false);
   const [visualizationArray, setVisualizationArray] = useState<ArrayElement[]>(
     []
@@ -31,7 +30,7 @@ export const MainComponent = () => {
     }
   }, [isSorting]);
   useEffect(() => {
-    let elementWidth = (MAX_WIDTH - (size - 1) * 5) / size;
+    let elementWidth = (MAX_WIDTH - (size - 1) * 2) / size;
     setVisualizationArray(
       Array.from({ length: size }, () => ({
         color: Colors.blue,
@@ -49,7 +48,6 @@ export const MainComponent = () => {
         currentAlgorithm={currentAlgorithm}
         setCurrentAlgorithm={setCurrentAlgorithm}
         setSize={setSize}
-        setSpeed={setSpeed}
         setGenerateNewArray={setGenerateNewArray}
         array={visualizationArray}
         setArray={setVisualizationArray}

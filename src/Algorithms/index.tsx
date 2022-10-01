@@ -1,9 +1,9 @@
 import React from "react";
+import { AnimationType, AnimationElement } from "./types";
+
 import {
-  AnimationElement,
-  ArrayElement,
-  AnimationType,
   Colors,
+  ArrayElement,
   CurrentAlgorithmEnum,
 } from "../MainComponent/types";
 import { BubbleSort } from "./BubbleSort";
@@ -15,72 +15,59 @@ export const Animation = (
   setIsSorting: React.Dispatch<React.SetStateAction<boolean>>,
   currentAlgorithm: string
 ) => {
-  let TIMEOUT_MS = 100; //2 * (100 / visualizationArray.length);
-  let SORTING_TIME = visualizationArray.length * 40;
+  let TIMEOUT_MS = 5 * (200 / visualizationArray.length);
+  let SORTING_TIME = 0;
 
   let animations: AnimationElement[] = [];
+  let heightArray: number[] = [];
+  for (const el of visualizationArray) {
+    heightArray.push(el.height);
+  }
 
   if (currentAlgorithm === CurrentAlgorithmEnum.bubble) {
-    animations = BubbleSort(visualizationArray);
+    animations = BubbleSort(heightArray);
   } else if (currentAlgorithm === CurrentAlgorithmEnum.merge) {
-    let arr: number[] = [];
-    for (const el of visualizationArray) {
-      arr.push(el.height);
-    }
-    animations = MergeSort(arr);
-    console.log("animations: ", animations);
+    animations = MergeSort(heightArray);
   }
 
   let i = 0;
   let assuredPlaces = [];
   let heights = [];
+
   for (; i < animations.length; i++) {
     let animation = animations[i];
-    const { type, firstIndex, secondIndex, color } = animation;
+    const { type, firstIndex, secondIndex, color, newHeight } = animation;
     let items = [...visualizationArray];
 
     for (const p of assuredPlaces) {
       items[p] = { ...items[p], color: Colors.purple };
     }
+
     for (const h of heights) {
       items[h.index] = { ...items[h.index], height: h.height };
     }
+
     let el1 = { ...items[firstIndex] };
     let el2 = { ...items[secondIndex] };
+
     if (type === AnimationType.colorChange) {
       el1 = { ...el1, color: color };
       el2 = { ...el2, color: color };
+
       items[firstIndex] = el1;
+
       items[secondIndex] = el2;
+
       setTimeout(() => {
         setVisualizationArray(items);
       }, i * TIMEOUT_MS + SORTING_TIME);
-    } else if (type === AnimationType.swap) {
-      heights.push(
-        {
-          index: firstIndex,
-          height: el2.height,
-        },
-        {
-          index: secondIndex,
-          height: el1.height,
-        }
-      );
-      let tmp = el1.height;
-      el1 = { ...el1, color: color, height: el2.height };
-      el2 = { ...el2, color: color, height: tmp };
-      items[firstIndex] = el1;
-      items[secondIndex] = el2;
-      setTimeout(() => {
-        setVisualizationArray(items);
-      }, i * TIMEOUT_MS + SORTING_TIME);
+    } else if (type === AnimationType.setHeight) {
+      heights.push({
+        index: firstIndex,
+        height: newHeight,
+      });
     } else {
       assuredPlaces.push(firstIndex);
-      el1 = { ...el1, color: color };
-      items[firstIndex] = el1;
-      setTimeout(() => {
-        setVisualizationArray(items);
-      }, i * TIMEOUT_MS + SORTING_TIME);
     }
   }
 

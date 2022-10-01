@@ -12,7 +12,6 @@ export type HeaderProps = {
     isSorting: Boolean | undefined,
     setIsSorting: React.Dispatch<React.SetStateAction<boolean>>,
     setSize: React.Dispatch<React.SetStateAction<number>>,
-    setSpeed: React.Dispatch<React.SetStateAction<number>>,
     setGenerateNewArray: React.Dispatch<React.SetStateAction<boolean>>,
     array: ArrayElement[],
     setArray: React.Dispatch<React.SetStateAction<ArrayElement[]>>

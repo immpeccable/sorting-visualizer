@@ -1,12 +1,7 @@
 import React from "react";
+import { AnimationType, AnimationElement } from "../types";
 
-import {
-  AnimationType,
-  Colors,
-  AnimationElement,
-  ArrayElement,
-} from "../../MainComponent/types";
-
+import { Colors, ArrayElement } from "../../MainComponent/types";
 function merge(
   mainArray,
   l,
@@ -15,40 +10,65 @@ function merge(
   auxilaryArray: number[],
   animations: AnimationElement[]
 ) {
-  let firstArrayLength = m - l + 1;
-  var secondArrayLength = r - m;
-
-  // Create temp arrays
-
-  // Merge the temp arrays back into arr[l..r]
-
-  // Initial index of first subarray
   let firstIndex = l;
 
-  // Initial index of second subarray
   let secondIndex = m + 1;
 
-  // Initial index of merged subarray
   var mergedIndex = l;
+
+  let isLast = l === 0 && r === mainArray.length - 1;
 
   while (firstIndex <= m && secondIndex <= r) {
     if (auxilaryArray[firstIndex] <= auxilaryArray[secondIndex]) {
       mainArray[mergedIndex++] = auxilaryArray[firstIndex++];
-
-      animations.push({
-        type: AnimationType.colorChange,
-        color: Colors.green,
-        firstIndex: firstIndex,
-        secondIndex: secondIndex,
-      });
+      animations.push(
+        {
+          type: AnimationType.setHeight,
+          firstIndex: mergedIndex - 1,
+          newHeight: auxilaryArray[firstIndex - 1],
+          secondIndex: -1,
+          color: Colors.green,
+        },
+        {
+          type: AnimationType.colorChange,
+          color: Colors.green,
+          firstIndex: firstIndex - 1,
+          secondIndex: secondIndex - 1,
+        }
+      );
     } else {
       mainArray[mergedIndex++] = auxilaryArray[secondIndex++];
-      animations.push({
-        type: AnimationType.colorChange,
-        color: Colors.red,
-        firstIndex: firstIndex,
-        secondIndex: secondIndex,
-      });
+      animations.push(
+        {
+          type: AnimationType.setHeight,
+          firstIndex: mergedIndex - 1,
+          newHeight: auxilaryArray[secondIndex - 1],
+          secondIndex: -1,
+          color: Colors.green,
+        },
+        {
+          type: AnimationType.colorChange,
+          color: Colors.red,
+          firstIndex: firstIndex - 1,
+          secondIndex: secondIndex - 1,
+        }
+      );
+    }
+    if (isLast) {
+      animations.push(
+        {
+          type: AnimationType.colorChange,
+          firstIndex: mergedIndex - 1,
+          secondIndex: -1,
+          color: Colors.purple,
+        },
+        {
+          type: AnimationType.assurePlace,
+          firstIndex: mergedIndex - 1,
+          secondIndex: -1,
+          color: Colors.purple,
+        }
+      );
     }
   }
 
@@ -56,12 +76,26 @@ function merge(
   // L[], if there are any
   while (firstIndex <= m) {
     mainArray[mergedIndex++] = auxilaryArray[firstIndex++];
+    animations.push({
+      type: AnimationType.setHeight,
+      firstIndex: mergedIndex - 1,
+      newHeight: auxilaryArray[firstIndex - 1],
+      secondIndex: -1,
+      color: Colors.green,
+    });
   }
 
   // Copy the remaining elements of
   // R[], if there are any
   while (secondIndex <= r) {
     mainArray[mergedIndex++] = auxilaryArray[secondIndex++];
+    animations.push({
+      type: AnimationType.setHeight,
+      firstIndex: mergedIndex - 1,
+      newHeight: auxilaryArray[secondIndex - 1],
+      secondIndex: -1,
+      color: Colors.green,
+    });
   }
 }
 

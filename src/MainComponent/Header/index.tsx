@@ -20,7 +20,6 @@ export const Header = ({
   isSorting,
   setIsSorting,
   setSize,
-  setSpeed,
   setGenerateNewArray,
   array,
   setArray,
@@ -45,8 +44,8 @@ export const Header = ({
             id="size"
             type="range"
             defaultValue={20}
-            min="6"
-            max="100"
+            min="20"
+            max="200"
           />
         </AdjustElement>
       </AdjustmentSection>
@@ -92,7 +91,7 @@ export const Header = ({
       <BlackDivider />
       <SortButton
         onClick={() => {
-          setIsSorting(true);
+          !isSorting && setIsSorting(true);
           Animation(array, setArray, setIsSorting, currentAlgorithm);
         }}
         isSorting={isSorting}
