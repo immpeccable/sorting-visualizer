@@ -1,5 +1,3 @@
-import React from "react";
-
 export enum CurrentAlgorithmEnum {
     merge = 'MergeSort',
     quick = 'QuickSort',

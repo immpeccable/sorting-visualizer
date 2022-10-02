@@ -1,4 +1,3 @@
-import React from "react";
 import { AnimationType, AnimationElement } from "../types";
 
 import { Colors } from "../../MainComponent/types";
