@@ -16,10 +16,6 @@ export const Animation = (
       ? 10000 / (visualizationArray.length * visualizationArray.length)
       : 10000 /
         (visualizationArray.length * Math.log(visualizationArray.length));
-  let SORTING_TIME =
-    currentAlgorithm === CurrentAlgorithmEnum.bubble
-      ? visualizationArray.length * visualizationArray.length * 0.05
-      : 0;
 
   let animations: AnimationElement[] = [];
   let arr = [...visualizationArray];
@@ -40,17 +36,15 @@ export const Animation = (
     let firstItem = arrayBars[firstIndex];
     let secondItem = arrayBars[secondIndex];
 
-    console.log(firstItem, secondItem);
-
     if (type === AnimationType.colorChange) {
       setTimeout(() => {
         firstItem.style.backgroundColor = color;
         secondItem.style.backgroundColor = color;
-      }, i * TIMEOUT_MS + SORTING_TIME);
+      }, i * TIMEOUT_MS);
     } else {
       setTimeout(() => {
         firstItem.style.height = newHeight + "px";
-      }, i * TIMEOUT_MS + SORTING_TIME);
+      }, i * TIMEOUT_MS);
     }
   }
 
@@ -59,7 +53,7 @@ export const Animation = (
     for (const el of Array.from(arrayBars.values())) {
       el.style.backgroundColor = Colors.green;
     }
-  }, i * TIMEOUT_MS + SORTING_TIME);
+  }, i * TIMEOUT_MS);
   setTimeout(() => {
     const arrayBars = document.querySelectorAll<HTMLElement>(".array-bar");
     let newHeights: number[] = [];
@@ -77,5 +71,5 @@ export const Animation = (
     }
     setVisualizationArray(newHeights);
     setIsSorting(false);
-  }, i * TIMEOUT_MS + 1000 + SORTING_TIME);
+  }, i * TIMEOUT_MS + 1000);
 };
