@@ -43,9 +43,9 @@ export const Header = ({
             disabled={isSorting === true ? true : false}
             id="size"
             type="range"
-            defaultValue={20}
+            defaultValue={50}
             min="20"
-            max="200"
+            max="150"
           />
         </AdjustElement>
       </AdjustmentSection>
@@ -92,7 +92,8 @@ export const Header = ({
       <SortButton
         onClick={() => {
           !isSorting && setIsSorting(true);
-          Animation(array, setArray, setIsSorting, currentAlgorithm);
+          !isSorting &&
+            Animation(array, setArray, setIsSorting, currentAlgorithm);
         }}
         isSorting={isSorting}
       >

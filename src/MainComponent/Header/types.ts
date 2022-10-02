@@ -1,4 +1,4 @@
-import { ArrayElement, CurrentAlgorithmEnum } from './../types';
+import { CurrentAlgorithmEnum } from './../types';
 import React from 'react';
 
 export type StyledProps = {
@@ -13,6 +13,6 @@ export type HeaderProps = {
     setIsSorting: React.Dispatch<React.SetStateAction<boolean>>,
     setSize: React.Dispatch<React.SetStateAction<number>>,
     setGenerateNewArray: React.Dispatch<React.SetStateAction<boolean>>,
-    array: ArrayElement[],
-    setArray: React.Dispatch<React.SetStateAction<ArrayElement[]>>
+    array: number[],
+    setArray: React.Dispatch<React.SetStateAction<number[]>>
 } 

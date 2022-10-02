@@ -1,7 +1,7 @@
 import React from "react";
 import { AnimationType, AnimationElement } from "../types";
 
-import { Colors, ArrayElement } from "../../MainComponent/types";
+import { Colors } from "../../MainComponent/types";
 function merge(
   mainArray,
   l,
@@ -32,7 +32,13 @@ function merge(
         {
           type: AnimationType.colorChange,
           color: Colors.green,
-          firstIndex: firstIndex - 1,
+          firstIndex: mergedIndex - 1,
+          secondIndex: secondIndex - 1,
+        },
+        {
+          type: AnimationType.colorChange,
+          color: Colors.blue,
+          firstIndex: mergedIndex - 1,
           secondIndex: secondIndex - 1,
         }
       );
@@ -49,26 +55,24 @@ function merge(
         {
           type: AnimationType.colorChange,
           color: Colors.red,
-          firstIndex: firstIndex - 1,
+          firstIndex: mergedIndex - 1,
+          secondIndex: secondIndex - 1,
+        },
+        {
+          type: AnimationType.colorChange,
+          color: Colors.blue,
+          firstIndex: mergedIndex - 1,
           secondIndex: secondIndex - 1,
         }
       );
     }
     if (isLast) {
-      animations.push(
-        {
-          type: AnimationType.colorChange,
-          firstIndex: mergedIndex - 1,
-          secondIndex: -1,
-          color: Colors.purple,
-        },
-        {
-          type: AnimationType.assurePlace,
-          firstIndex: mergedIndex - 1,
-          secondIndex: -1,
-          color: Colors.purple,
-        }
-      );
+      animations.push({
+        type: AnimationType.colorChange,
+        firstIndex: mergedIndex - 1,
+        secondIndex: -1,
+        color: Colors.purple,
+      });
     }
   }
 
@@ -83,6 +87,14 @@ function merge(
       secondIndex: -1,
       color: Colors.green,
     });
+    if (isLast) {
+      animations.push({
+        type: AnimationType.colorChange,
+        firstIndex: mergedIndex - 1,
+        secondIndex: -1,
+        color: Colors.purple,
+      });
+    }
   }
 
   // Copy the remaining elements of
@@ -96,6 +108,14 @@ function merge(
       secondIndex: -1,
       color: Colors.green,
     });
+    if (isLast) {
+      animations.push({
+        type: AnimationType.colorChange,
+        firstIndex: mergedIndex - 1,
+        secondIndex: -1,
+        color: Colors.purple,
+      });
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Header } from "./Header";
 import { MainWrapper, VisualizationTable } from "./styled";
-import { CurrentAlgorithmEnum, Colors, ArrayElement } from "./types";
+import { CurrentAlgorithmEnum, Colors } from "./types";
 
 const MAX_HEIGHT = 800;
 const MIN_HEIGHT = 50;
@@ -14,29 +14,26 @@ export const MainComponent = () => {
   const [isSorting, setIsSorting] = useState(false);
   const [size, setSize] = useState(20);
   const [generateNewArray, setGenerateNewArray] = useState(false);
-  const [visualizationArray, setVisualizationArray] = useState<ArrayElement[]>(
-    []
-  );
+  const [visualizationArray, setVisualizationArray] = useState<number[]>([]);
 
   useEffect(() => {
     if (isSorting) {
-      let items = [...visualizationArray];
+      let items = document.querySelectorAll<HTMLElement>(".array-bar");
       for (let i = 0; i < items.length; i++) {
-        let el = { ...items[i] };
-        el = { ...el, color: Colors.blue };
-        items[i] = el;
+        items[i].style.backgroundColor = Colors.blue;
       }
-      setVisualizationArray(items);
     }
   }, [isSorting]);
   useEffect(() => {
-    let elementWidth = (MAX_WIDTH - (size - 1) * 2) / size;
+    let items = document.querySelectorAll<HTMLElement>(".array-bar");
+    for (let i = 0; i < items.length; i++) {
+      items[i].style.backgroundColor = Colors.blue;
+    }
     setVisualizationArray(
-      Array.from({ length: size }, () => ({
-        color: Colors.blue,
-        width: elementWidth,
-        height: Math.floor(Math.random() * HEIGHT_GAP) + MIN_HEIGHT,
-      }))
+      Array.from(
+        { length: size },
+        () => Math.floor(Math.random() * HEIGHT_GAP) + MIN_HEIGHT
+      )
     );
   }, [size, generateNewArray]);
 
@@ -53,12 +50,14 @@ export const MainComponent = () => {
         setArray={setVisualizationArray}
       />
       <VisualizationTable>
-        {visualizationArray.map((el) => (
+        {visualizationArray.map((el, index) => (
           <div
+            className="array-bar"
+            key={index}
             style={{
-              width: el.width + "px",
-              height: el.height + "px",
-              backgroundColor: el.color,
+              width: (MAX_WIDTH - (size - 1) * 2) / size + "px",
+              height: el + "px",
+              backgroundColor: Colors.blue,
             }}
           />
         ))}

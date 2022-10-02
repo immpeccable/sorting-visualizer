@@ -14,13 +14,6 @@ export enum Colors {
     purple= 'var(--purple)',
     yellow= 'var(--yellow)',
 }
-
-export type ArrayElement = {
-    color: Colors,
-    height: number,
-    width: number
-}
-
 export type TableElementProps = {
     height: string;
     width: string;

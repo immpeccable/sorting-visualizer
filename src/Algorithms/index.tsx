@@ -1,95 +1,81 @@
 import React from "react";
 import { AnimationType, AnimationElement } from "./types";
 
-import {
-  Colors,
-  ArrayElement,
-  CurrentAlgorithmEnum,
-} from "../MainComponent/types";
+import { Colors, CurrentAlgorithmEnum } from "../MainComponent/types";
 import { BubbleSort } from "./BubbleSort";
 import { MergeSort } from "./MergeSort";
 
 export const Animation = (
-  visualizationArray: ArrayElement[],
-  setVisualizationArray: React.Dispatch<React.SetStateAction<ArrayElement[]>>,
+  visualizationArray: number[],
+  setVisualizationArray: React.Dispatch<React.SetStateAction<number[]>>,
   setIsSorting: React.Dispatch<React.SetStateAction<boolean>>,
   currentAlgorithm: string
 ) => {
-  let TIMEOUT_MS = 5 * (200 / visualizationArray.length);
-  let SORTING_TIME = 0;
+  let TIMEOUT_MS =
+    currentAlgorithm === CurrentAlgorithmEnum.bubble
+      ? 10000 / (visualizationArray.length * visualizationArray.length)
+      : 10000 /
+        (visualizationArray.length * Math.log(visualizationArray.length));
+  let SORTING_TIME =
+    currentAlgorithm === CurrentAlgorithmEnum.bubble
+      ? visualizationArray.length * visualizationArray.length * 0.05
+      : 0;
 
   let animations: AnimationElement[] = [];
-  let heightArray: number[] = [];
-  for (const el of visualizationArray) {
-    heightArray.push(el.height);
-  }
+  let arr = [...visualizationArray];
 
   if (currentAlgorithm === CurrentAlgorithmEnum.bubble) {
-    animations = BubbleSort(heightArray);
+    animations = BubbleSort(arr);
   } else if (currentAlgorithm === CurrentAlgorithmEnum.merge) {
-    animations = MergeSort(heightArray);
+    animations = MergeSort(arr);
   }
 
   let i = 0;
-  let assuredPlaces = [];
-  let heights = [];
 
   for (; i < animations.length; i++) {
-    let animation = animations[i];
-    const { type, firstIndex, secondIndex, color, newHeight } = animation;
-    let items = [...visualizationArray];
+    const { type, firstIndex, secondIndex, color, newHeight } = animations[i];
 
-    for (const p of assuredPlaces) {
-      items[p] = { ...items[p], color: Colors.purple };
-    }
+    const arrayBars = document.querySelectorAll<HTMLElement>(".array-bar");
 
-    for (const h of heights) {
-      items[h.index] = { ...items[h.index], height: h.height };
-    }
+    let firstItem = arrayBars[firstIndex];
+    let secondItem = arrayBars[secondIndex];
 
-    let el1 = { ...items[firstIndex] };
-    let el2 = { ...items[secondIndex] };
+    console.log(firstItem, secondItem);
 
     if (type === AnimationType.colorChange) {
-      el1 = { ...el1, color: color };
-      el2 = { ...el2, color: color };
-
-      items[firstIndex] = el1;
-
-      items[secondIndex] = el2;
-
       setTimeout(() => {
-        setVisualizationArray(items);
+        firstItem.style.backgroundColor = color;
+        secondItem.style.backgroundColor = color;
       }, i * TIMEOUT_MS + SORTING_TIME);
-    } else if (type === AnimationType.setHeight) {
-      heights.push({
-        index: firstIndex,
-        height: newHeight,
-      });
     } else {
-      assuredPlaces.push(firstIndex);
+      setTimeout(() => {
+        firstItem.style.height = newHeight + "px";
+      }, i * TIMEOUT_MS + SORTING_TIME);
     }
   }
 
   setTimeout(() => {
-    let items = [...visualizationArray];
-    for (const h of heights) {
-      items[h.index] = { ...items[h.index], height: h.height };
+    const arrayBars = document.querySelectorAll<HTMLElement>(".array-bar");
+    for (const el of Array.from(arrayBars.values())) {
+      el.style.backgroundColor = Colors.green;
     }
-    for (let i = 0; i < items.length; i++) {
-      items[i] = { ...items[i], color: Colors.green };
-    }
-    setVisualizationArray(items);
   }, i * TIMEOUT_MS + SORTING_TIME);
   setTimeout(() => {
-    let items = [...visualizationArray];
-    for (let i = 0; i < items.length; i++) {
-      items[i] = { ...items[i], color: Colors.blue };
+    const arrayBars = document.querySelectorAll<HTMLElement>(".array-bar");
+    let newHeights: number[] = [];
+    for (const el of Array.from(arrayBars.values())) {
+      let heightAsString = "";
+      let heightString = el.style.height;
+      let i = 0;
+      while (heightString[i] !== "p") {
+        heightAsString += heightString[i];
+        i++;
+      }
+      let height: number = parseInt(heightAsString);
+      newHeights.push(height);
+      el.style.backgroundColor = Colors.purple;
     }
-    for (const h of heights) {
-      items[h.index] = { ...items[h.index], height: h.height };
-    }
-    setVisualizationArray(items);
+    setVisualizationArray(newHeights);
     setIsSorting(false);
   }, i * TIMEOUT_MS + 1000 + SORTING_TIME);
 };

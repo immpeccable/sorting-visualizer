@@ -1,12 +1,11 @@
-import React from "react";
 import { AnimationType, AnimationElement } from "../types";
 
-import { Colors, ArrayElement } from "../../MainComponent/types";
+import { Colors } from "../../MainComponent/types";
 export const BubbleSort = (tempArray: number[]) => {
   let animations: AnimationElement[] = [];
 
-  for (var i = 0; i < tempArray.length; i++) {
-    for (var j = 0; j < tempArray.length - i - 1; j++) {
+  for (let i = 0; i < tempArray.length; i++) {
+    for (let j = 0; j < tempArray.length - i - 1; j++) {
       if (tempArray[j] > tempArray[j + 1]) {
         let tmpHeight: number = tempArray[j];
         tempArray[j] = tempArray[j + 1];
@@ -43,40 +42,39 @@ export const BubbleSort = (tempArray: number[]) => {
             firstIndex: j,
             secondIndex: j + 1,
             color: Colors.green,
+          },
+          {
+            type: AnimationType.colorChange,
+            firstIndex: j,
+            secondIndex: j + 1,
+            color: Colors.blue,
           }
         );
       } else {
-        animations.push({
-          type: AnimationType.colorChange,
-          firstIndex: j,
-          secondIndex: j + 1,
-          color: Colors.green,
-        });
-      }
-      if (j === tempArray.length - i - 2) {
         animations.push(
           {
             type: AnimationType.colorChange,
-            firstIndex: j + 1,
-            secondIndex: -1,
-            color: Colors.purple,
+            firstIndex: j,
+            secondIndex: j + 1,
+            color: Colors.green,
           },
           {
-            type: AnimationType.assurePlace,
-            firstIndex: j + 1,
-            secondIndex: -1,
-            color: Colors.purple,
+            type: AnimationType.colorChange,
+            firstIndex: j,
+            secondIndex: j + 1,
+            color: Colors.blue,
           }
         );
       }
+      if (j === tempArray.length - i - 2) {
+        animations.push({
+          type: AnimationType.colorChange,
+          firstIndex: j + 1,
+          secondIndex: -1,
+          color: Colors.purple,
+        });
+      }
     }
   }
-  animations.push({
-    type: AnimationType.assurePlace,
-    firstIndex: 0,
-    secondIndex: -1,
-    color: Colors.purple,
-  });
-
   return animations;
 };
