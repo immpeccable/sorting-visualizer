@@ -10,7 +10,7 @@ export enum Colors {
     green = 'var(--green)',
     red='var(--red)',
     purple= 'var(--purple)',
-    yellow= 'var(--yellow)',
+    yellow = 'var(--yellow)',
 }
 export type TableElementProps = {
     height: string;

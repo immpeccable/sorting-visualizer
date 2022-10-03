@@ -4,6 +4,7 @@ import { AnimationType, AnimationElement } from "./types";
 import { Colors, CurrentAlgorithmEnum } from "../MainComponent/types";
 import { BubbleSort } from "./BubbleSort";
 import { MergeSort } from "./MergeSort";
+import { QuickSort } from "./QuickSort";
 
 export const Animation = (
   visualizationArray: number[],
@@ -14,7 +15,7 @@ export const Animation = (
   let TIMEOUT_MS =
     currentAlgorithm === CurrentAlgorithmEnum.bubble
       ? 10000 / (visualizationArray.length * visualizationArray.length)
-      : 10000 /
+      : 5000 /
         (visualizationArray.length * Math.log(visualizationArray.length));
 
   let animations: AnimationElement[] = [];
@@ -24,8 +25,11 @@ export const Animation = (
     animations = BubbleSort(arr);
   } else if (currentAlgorithm === CurrentAlgorithmEnum.merge) {
     animations = MergeSort(arr);
+    console.log("merge sort arr: ", arr);
+  } else if (currentAlgorithm === CurrentAlgorithmEnum.quick) {
+    animations = QuickSort(arr);
+    console.log("quick sort array: ", arr);
   }
-
   let i = 0;
 
   for (; i < animations.length; i++) {
@@ -38,12 +42,18 @@ export const Animation = (
 
     if (type === AnimationType.colorChange) {
       setTimeout(() => {
-        firstItem.style.backgroundColor = color;
-        secondItem.style.backgroundColor = color;
+        if (firstItem) {
+          firstItem.style.backgroundColor = color;
+        }
+        if (secondItem) {
+          secondItem.style.backgroundColor = color;
+        }
       }, i * TIMEOUT_MS);
     } else {
       setTimeout(() => {
-        firstItem.style.height = newHeight + "px";
+        if (firstItem && newHeight) {
+          firstItem.style.height = newHeight + "px";
+        }
       }, i * TIMEOUT_MS);
     }
   }
