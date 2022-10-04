@@ -45,7 +45,7 @@ export const Header = ({
             type="range"
             defaultValue={50}
             min="20"
-            max="150"
+            max="125"
           />
         </AdjustElement>
       </AdjustmentSection>
@@ -69,15 +69,7 @@ export const Header = ({
         >
           Quick Sort
         </HeaderButton>
-        <HeaderButton
-          onClick={() => {
-            !isSorting && setCurrentAlgorithm(CurrentAlgorithmEnum.heap);
-          }}
-          isActive={currentAlgorithm === CurrentAlgorithmEnum.heap}
-          isSorting={isSorting}
-        >
-          Heap Sort
-        </HeaderButton>
+
         <HeaderButton
           onClick={() => {
             !isSorting && setCurrentAlgorithm(CurrentAlgorithmEnum.bubble);
