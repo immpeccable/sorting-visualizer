@@ -3,7 +3,7 @@ import { Header } from "./Header";
 import { MainWrapper, VisualizationTable } from "./styled";
 import { CurrentAlgorithmEnum, Colors } from "./types";
 
-const MAX_HEIGHT = 800;
+const MAX_HEIGHT = 600;
 const MIN_HEIGHT = 50;
 const MAX_WIDTH = 1000;
 const HEIGHT_GAP = MAX_HEIGHT - MIN_HEIGHT;
